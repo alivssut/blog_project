@@ -8,6 +8,7 @@ class Catagory(models.Model):
     name = models.CharField(max_length=200, null=True)
     slug = models.SlugField(null=True)
     description = models.CharField(max_length=500, null=True,blank=True, verbose_name='Description')
+    is_active = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.name) 
@@ -17,7 +18,7 @@ class Catagory(models.Model):
         verbose_name_plural = 'Catagories'
 
 
-# posts model
+# post model
 class Post(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, unique=True)
@@ -37,10 +38,12 @@ class Post(models.Model):
         verbose_name_plural = 'Posts'
 
 
+# comment model
 class Comment(models.Model):
     body = models.TextField()
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_active = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
