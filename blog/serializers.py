@@ -28,3 +28,22 @@ class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
         fields = '__all__'
         model = Post
         read_only_fields = ('owner', 'is_active', )
+        
+
+class CommentSerializer(serializers.ModelSerializer):
+    tags = TagListSerializerField()
+    
+    def validate(self, data):
+        """
+        set auth user to owner
+        """
+        
+        request = self.context.get("request")
+        data["owner"] = request.user
+        
+        return data
+    
+    class Meta:
+        fields = '__all__'
+        model = Post
+        read_only_fields = ('owner', 'is_active', )
