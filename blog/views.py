@@ -65,3 +65,14 @@ class CommentUpdateView(generics.UpdateAPIView):
 class CommentDeleteView(generics.DestroyAPIView):
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticated]
+
+# post comments view
+class PostCommentView(generics.ListAPIView):
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        pk = self.kwargs.get('pk')
+        print(pk)
+        comments = Comment.objects.filter(post=pk)
+        return comments
