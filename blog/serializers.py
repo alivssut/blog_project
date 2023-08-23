@@ -1,6 +1,6 @@
 # posts/serializers.py
 from rest_framework import serializers
-from .models import Post, Catagory
+from .models import Post, Catagory, Comment
 from rest_framework.fields import CurrentUserDefault
 from taggit.serializers import (TagListSerializerField,
                                 TaggitSerializer)
@@ -31,7 +31,6 @@ class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
         
 
 class CommentSerializer(serializers.ModelSerializer):
-    tags = TagListSerializerField()
     
     def validate(self, data):
         """
@@ -45,5 +44,5 @@ class CommentSerializer(serializers.ModelSerializer):
     
     class Meta:
         fields = '__all__'
-        model = Post
+        model = Comment
         read_only_fields = ('owner', 'is_active', )
