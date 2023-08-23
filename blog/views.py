@@ -10,7 +10,7 @@ class PostPagination(pagination.PageNumberPagination):
 
 # post list view
 class PostListView(generics.ListAPIView):
-    pagination_class = MyOffsetPagination
+    pagination_class = PostPagination
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
