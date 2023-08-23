@@ -11,7 +11,7 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Catagory
 
 
-class PostSerializer(serializers.ModelSerializer):
+class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
     tags = TagListSerializerField()
     
     def validate(self, data):
@@ -25,5 +25,6 @@ class PostSerializer(serializers.ModelSerializer):
         return data
     
     class Meta:
-        exclude = ("owner", "is_active")
+        fields = '__all__'
         model = Post
+        read_only_fields = ('owner', 'is_active', )
