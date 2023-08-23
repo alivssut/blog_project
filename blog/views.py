@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated, IsAuthentic
 from rest_framework import pagination
 
 
-class MyOffsetPagination(pagination.PageNumberPagination):
+class PostPagination(pagination.PageNumberPagination):
     page_size = 5
 
 # post list view
