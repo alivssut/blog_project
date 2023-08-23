@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'rest_auth.registration',
     'dj_rest_auth',
+    'drf_spectacular',
     
 ]
 
@@ -181,5 +182,14 @@ REST_AUTH = {
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 5
+    'PAGE_SIZE': 5,
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+# Schema
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Blog API Project",
+    "DESCRIPTION": "A sample blog to learn about DRF",
+    "VERSION": "1.0.0",
 }
