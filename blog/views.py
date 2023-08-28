@@ -86,11 +86,17 @@ class PostCommentView(generics.ListAPIView):
 # tag list view
 class TagListView(generics.ListAPIView):
     serializer_class = MyTagSerializer
-    # permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Tag.objects.all()
+
+
+# tag posts view
+class TagPostsListView(generics.ListAPIView):
+    serializer_class = PostSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    lookup_url_kwarg  = 'slug'
     
-    # def get_queryset(self):
-    #     queryset = Tag.objects.all()
-    #     print(queryset)
-    #     return queryset
-    
+    def get_queryset(self):
+        slug = self.kwargs.get(self.lookup_url_kwarg)
+        queryset = Post.objects.filter(tags__slug=slug)
+        return queryset
