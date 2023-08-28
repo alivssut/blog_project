@@ -4,6 +4,7 @@ from .models import Post, Catagory, Comment
 from rest_framework.fields import CurrentUserDefault
 from taggit.serializers import (TagListSerializerField,
                                 TaggitSerializer)
+from taggit.models import Tag
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -46,3 +47,8 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = '__all__'
         model = Comment
         read_only_fields = ('owner', 'is_active', )
+        
+class MyTagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ['name', 'slug']

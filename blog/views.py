@@ -3,6 +3,12 @@ from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework import pagination
+from taggit.serializers import (TagListSerializerField,
+                                TaggitSerializer)
+from taggit.managers import TaggableManager
+from taggit.models import Tag, TaggedItem
+from .serializers import MyTagSerializer
+
 
 # Post paginstaion class
 class PostPagination(pagination.PageNumberPagination):
@@ -73,6 +79,18 @@ class PostCommentView(generics.ListAPIView):
     
     def get_queryset(self):
         pk = self.kwargs.get('pk')
-        print(pk)
         comments = Comment.objects.filter(post=pk)
         return comments
+    
+
+# tag list view
+class TagListView(generics.ListAPIView):
+    serializer_class = MyTagSerializer
+    # permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = Tag.objects.all()
+    
+    # def get_queryset(self):
+    #     queryset = Tag.objects.all()
+    #     print(queryset)
+    #     return queryset
+    
