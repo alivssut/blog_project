@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, PostCommentView, CommentCreateView, CommentDeleteView, CommentDetailView, CommentListView, CommentUpdateView
 from .views import TagListView, TagPostsListView
+from .views import CatagoryListView, CatagoryPostsListView
 
 urlpatterns = [
     path("posts/<int:pk>/", PostDetailView.as_view(), name="post_detail"),
@@ -18,5 +19,8 @@ urlpatterns = [
     
     path("tags/", TagListView.as_view(), name="tag_list"),
     path("tags/<slug:slug>/posts/", TagPostsListView.as_view(), name="tag_posts"),
+    
+    path("categories/", CatagoryListView.as_view(), name="category_list"),
+    path("categories/<slug:slug>/", CatagoryPostsListView.as_view(), name="category_posts"),
     
 ]

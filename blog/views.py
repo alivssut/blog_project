@@ -1,6 +1,6 @@
 from rest_framework import generics
-from .models import Post, Comment
-from .serializers import PostSerializer, CommentSerializer
+from .models import Post, Comment, Catagory
+from .serializers import PostSerializer, CommentSerializer, CategorySerializer
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework import pagination
 from taggit.serializers import (TagListSerializerField,
@@ -99,4 +99,23 @@ class TagPostsListView(generics.ListAPIView):
     def get_queryset(self):
         slug = self.kwargs.get(self.lookup_url_kwarg)
         queryset = Post.objects.filter(tags__slug=slug)
+        return queryset
+
+# categories
+    
+class CatagoryListView(generics.ListAPIView):
+    serializer_class = CategorySerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = Catagory.objects.all()
+
+
+# category posts view
+class CatagoryPostsListView(generics.ListAPIView):
+    serializer_class = PostSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    lookup_url_kwarg  = 'slug'
+    
+    def get_queryset(self):
+        slug = self.kwargs.get(self.lookup_url_kwarg)
+        queryset = Post.objects.filter(category__slug=slug)
         return queryset
