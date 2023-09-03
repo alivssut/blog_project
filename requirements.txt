@@ -36,3 +36,4 @@ uritemplate==4.1.1
 urllib3==2.0.4
 psycopg2-binary==2.9.3
 environs[django]==9.5.0
+django-debug-toolbar==3.4.0

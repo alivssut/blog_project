@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^tugo(awyr98bv75_8y^2u5rk1p9#p8_i+d8u2ba4dcfz520qr'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DJANGO_DEBUG", default=False)
 
 ALLOWED_HOSTS = []
 
@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'dj_rest_auth',
     'drf_spectacular',
+    'debug_toolbar',
     
 ]
 
@@ -69,6 +70,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    
 ]
 
 ROOT_URLCONF = 'blog_project.urls'
@@ -201,3 +204,10 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "A sample blog to learn about DRF",
     "VERSION": "1.0.0",
 }
+
+
+# ips
+import socket
+
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
