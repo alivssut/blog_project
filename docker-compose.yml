@@ -9,6 +9,7 @@ services:
       - 8000:8000
     depends_on:
       - db
+      - redis
     environment:
       - "DJANGO_SECRET_KEY=django-insecure-hv1(e0r@v4n4m6gqdz%dn(60o=dsy8&@0_lbs8p-v3u^bs4)xl"
       - "DJANGO_DEBUG=True"
@@ -24,5 +25,18 @@ services:
       - 'postgres_data:/var/lib/postgresql/data/'
     environment:
       - "POSTGRES_HOST_AUTH_METHOD=trust"
+  memcached:
+    image: bitnami/memcached:latest
+    command: /opt/bitnami/scripts/memcached/run.sh -vvv -m 512
+    ports:
+      - "11211:11211"
+  redis:
+    image: redis:5
+    ports:
+      - "6379:6379"
+    volumes:
+      - 'redisdata:/data'
+    container_name: redis5_2
 volumes:
   postgres_data:
+  redisdata:

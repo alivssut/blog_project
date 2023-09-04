@@ -37,3 +37,7 @@ urllib3==2.0.4
 psycopg2-binary==2.9.3
 environs[django]==9.5.0
 django-debug-toolbar==3.4.0
+django-memcached==0.1.2
+pymemcache==4.0.0
+redis==4.3.4
+django-redis==5.3.0

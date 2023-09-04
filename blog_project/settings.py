@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'dj_rest_auth',
     'drf_spectacular',
     'debug_toolbar',
+    'django_redis',
     
 ]
 
@@ -211,3 +212,13 @@ import socket
 
 hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
 INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
+
+
+# cache
+
+CACHES = {
+   'default': {
+      'BACKEND': 'django_redis.cache.RedisCache',
+      'LOCATION': 'redis://redis:6379/',
+   }
+}
