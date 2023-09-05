@@ -8,6 +8,7 @@ from taggit.serializers import (TagListSerializerField,
 from taggit.managers import TaggableManager
 from taggit.models import Tag, TaggedItem
 from .serializers import MyTagSerializer
+from django.db.models import Prefetch
 
 
 # post list view
@@ -113,5 +114,5 @@ class CatagoryPostsListView(generics.ListAPIView):
     
     def get_queryset(self):
         slug = self.kwargs.get(self.lookup_url_kwarg)
-        queryset = Catagory.objects.get(slug=slug).posts.all()
+        queryset = Post.objects.filter(category__slug=slug).prefetch_related('category').prefetch_related('tags')
         return queryset
