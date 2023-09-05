@@ -122,5 +122,5 @@ class CatagoryPostsListView(generics.ListAPIView):
     
     def get_queryset(self):
         slug = self.kwargs.get(self.lookup_url_kwarg)
-        queryset = Post.objects.filter(category__slug=slug)
+        queryset = Catagory.objects.get(slug=slug).posts.all()
         return queryset

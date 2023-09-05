@@ -22,6 +22,6 @@ urlpatterns = [
     path("tags/<slug:slug>/posts/", TagPostsListView.as_view(), name="tag_posts"),
     
     path("categories/", cache_page(60 * 60)(CatagoryListView.as_view()), name="category_list"),
-    path("categories/<slug:slug>/", CatagoryPostsListView.as_view(), name="category_posts"),
+    path("categories/<slug:slug>/posts/", CatagoryPostsListView.as_view(), name="category_posts"),
     
 ]
