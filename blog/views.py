@@ -2,17 +2,13 @@ from rest_framework import generics
 from .models import Post, Comment, Catagory
 from .serializers import PostSerializer, CommentSerializer, CategorySerializer
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
-from rest_framework import pagination
+from .pagination import PostPagination, CommentPagination
 from taggit.serializers import (TagListSerializerField,
                                 TaggitSerializer)
 from taggit.managers import TaggableManager
 from taggit.models import Tag, TaggedItem
 from .serializers import MyTagSerializer
 
-
-# Post paginstaion class
-class PostPagination(pagination.PageNumberPagination):
-    page_size = 5
 
 # post list view
 class PostListView(generics.ListAPIView):
@@ -34,7 +30,6 @@ class PostDetailView(generics.RetrieveAPIView):
     lookup_field = 'slug'
     queryset = Post.objects.all()
     
-    
 # post update view
 class PostUpdateView(generics.UpdateAPIView):
     serializer_class = PostSerializer
@@ -45,10 +40,6 @@ class PostUpdateView(generics.UpdateAPIView):
 class PostDeleteView(generics.DestroyAPIView):
     serializer_class = PostSerializer
     permission_classes = [IsAdminUser,]
-    
-# Comment pagination class    
-class CommentPagination(pagination.PageNumberPagination):
-    page_size = 5
 
 # Comment list view
 class CommentListView(generics.ListAPIView):
