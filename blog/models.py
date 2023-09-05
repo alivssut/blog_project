@@ -26,7 +26,7 @@ class Post(models.Model):
     summary = models.CharField(max_length=800, blank=True, verbose_name="summary")
     slug = models.SlugField(default="", null=False, db_index=True, blank=True, max_length=200, unique=True, verbose_name='url title')
     category = models.ManyToManyField(Catagory, related_name='post_categories', verbose_name='categories')
-    tags = TaggableManager(related_name='tags')
+    tags = TaggableManager(related_name='posts')
     is_active = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

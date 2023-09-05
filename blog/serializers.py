@@ -29,6 +29,7 @@ class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
         fields = '__all__'
         model = Post
         read_only_fields = ('owner', 'is_active', )
+        lookup_field = 'slug'
         
 
 class CommentSerializer(serializers.ModelSerializer):
