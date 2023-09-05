@@ -23,6 +23,7 @@ class Post(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, unique=True)
     body = models.TextField()
+    summary = models.CharField(max_length=800, blank=True, verbose_name="summary")
     slug = models.SlugField(default="", null=False, db_index=True, blank=True, max_length=200, unique=True, verbose_name='url title')
     category = models.ManyToManyField(Catagory, related_name='post_categories', verbose_name='categories')
     tags = TaggableManager(related_name='tags')
