@@ -76,7 +76,7 @@ class PostCommentView(generics.ListAPIView):
     
     def get_queryset(self):
         slug = self.kwargs.get('slug')
-        comments = Post.objects.get(slug=slug).comments.all()
+        comments = Comment.objects.filter(post__slug=slug).prefetch_related('post')
         return comments
     
 
