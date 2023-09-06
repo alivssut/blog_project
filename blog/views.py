@@ -3,12 +3,8 @@ from .models import Post, Comment, Catagory
 from .serializers import PostSerializer, CommentSerializer, CategorySerializer
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
 from .pagination import PostPagination, CommentPagination
-from taggit.serializers import (TagListSerializerField,
-                                TaggitSerializer)
-from taggit.managers import TaggableManager
 from taggit.models import Tag, TaggedItem
 from .serializers import MyTagSerializer
-from django.db.models import Prefetch
 
 
 # post list view
@@ -52,7 +48,7 @@ class CommentListView(generics.ListAPIView):
 # Comment create view
 class CommentCreateView(generics.CreateAPIView):
     serializer_class = CommentSerializer
-    permission_classes = [IsAdminUser,]
+    permission_classes = [IsAdminUser, IsAuthenticated]
 
 # Comment detail view
 class CommentDetailView(generics.RetrieveAPIView):
@@ -76,7 +72,7 @@ class PostCommentView(generics.ListAPIView):
     
     def get_queryset(self):
         slug = self.kwargs.get('slug')
-        comments = Comment.objects.filter(post__slug=slug).prefetch_related('post')
+        comments = Comment.objects.all_related_comments_to_post(post_slug=slug)
         return comments
     
 
@@ -95,7 +91,7 @@ class TagPostsListView(generics.ListAPIView):
     
     def get_queryset(self):
         slug = self.kwargs.get(self.lookup_url_kwarg)
-        queryset = Post.objects.filter(tags__slug=slug).prefetch_related('tags').prefetch_related('category')
+        queryset = Post.objects.all_related_posts_to_tag(tag_slug=slug)
         return queryset
 
 # categories
@@ -113,5 +109,5 @@ class CatagoryPostsListView(generics.ListAPIView):
     
     def get_queryset(self):
         slug = self.kwargs.get(self.lookup_url_kwarg)
-        queryset = Post.objects.filter(category__slug=slug).prefetch_related('category').prefetch_related('tags')
+        queryset = Post.objects.all_related_posts_to_category(category_slug=slug)
         return queryset

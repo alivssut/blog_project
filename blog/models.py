@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from taggit.managers import TaggableManager
 from accounts.models import User
+from .managers import PostManager, CommentManager
 
 # Catagory model
 class Catagory(models.Model):
@@ -30,6 +31,9 @@ class Post(models.Model):
     is_active = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    
+    objects = PostManager()
+
 
     def __str__(self):
         return self.title
@@ -48,6 +52,8 @@ class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    objects = CommentManager()
+    
     def __str__(self):
         return 'created by {} at {}'.format(self.owner, self.created)
     
