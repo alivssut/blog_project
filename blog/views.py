@@ -95,8 +95,7 @@ class TagPostsListView(generics.ListAPIView):
     
     def get_queryset(self):
         slug = self.kwargs.get(self.lookup_url_kwarg)
-        tags = Tag.objects.filter(slug=slug).values_list('name', flat=True)
-        queryset = Post.objects.filter(tags__name__in=tags)
+        queryset = Post.objects.filter(tags__slug=slug).prefetch_related('tags').prefetch_related('category')
         return queryset
 
 # categories
