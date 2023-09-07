@@ -30,7 +30,7 @@ class User(AbstractUser):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='uploads/profile/avatars', verbose_name='user avatar', null=True, blank=True)
+    avatar = models.ImageField(upload_to='uploads/user_profile/avatars', verbose_name='user avatar', null=True, blank=True)
     about_user = models.TextField(null=True, blank=True, verbose_name='about user')
     phone_number = models.CharField(
             null=True,
