@@ -6,3 +6,4 @@ from django.contrib.sessions.models import Session
 
 admin.site.register(Session)
 admin.site.register(models.User)
+admin.site.register(models.UserProfile)
