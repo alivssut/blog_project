@@ -158,5 +158,8 @@ Thumbs.db
 # profiling data
 .prof
 
+# uploads
+uploads/user_profile/avatars/*
+
 
 # End of https://www.toptal.com/developers/gitignore/api/django
