@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     
     'accounts',
     'blog',
-    'graphql',
+    'graphql_api',
     
     'taggit',
     'rest_framework',

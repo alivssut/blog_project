@@ -33,7 +33,7 @@ urlpatterns = [
     path("api/schema/swagger-ui/", SpectacularSwaggerView.as_view(
         url_name="schema"), name="swagger-ui"),
     
-    path("graphql", include("graphql.urls")),
+    path("graphql", include("graphql_api.urls")),
     
 ]
 
