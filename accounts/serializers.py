@@ -9,11 +9,9 @@ class CustomRegisterSerializer(RegisterSerializer):
 
     def get_cleaned_data(self):
         cleaned_data = super(CustomRegisterSerializer, self).get_cleaned_data()
-        # print(self.validated_data.get('gender',''))
         cleaned_data['first_name'] = self.validated_data.get('first_name','')
         cleaned_data['last_name'] = self.validated_data.get('last_name','')
         cleaned_data['gender'] = self.validated_data.get('gender','')
-        print(cleaned_data)
         return cleaned_data
         
     def save(self, *args, **kwargs):
