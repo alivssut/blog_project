@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     
     'accounts',
     'blog',
+    'graphql',
     
     'taggit',
     'rest_framework',
@@ -58,7 +59,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'debug_toolbar',
     'django_redis',
-    
+    'graphene_django',
 ]
 
 SITE_ID = 1
@@ -221,4 +222,11 @@ CACHES = {
       'BACKEND': 'django_redis.cache.RedisCache',
       'LOCATION': 'redis://redis:6379/',
    }
+}
+
+
+# graphene
+
+GRAPHENE = {
+    'SCHEMA' : 'graphql.schema'
 }
