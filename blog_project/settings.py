@@ -60,6 +60,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'django_redis',
     'graphene_django',
+    'django_elasticsearch_dsl',
+    'django_elasticsearch_dsl_drf',
 ]
 
 SITE_ID = 1

@@ -10,6 +10,7 @@ services:
     depends_on:
       - db
       - redis
+      - elasticsearch
     environment:
       - "DJANGO_SECRET_KEY=django-insecure-hv1(e0r@v4n4m6gqdz%dn(60o=dsy8&@0_lbs8p-v3u^bs4)xl"
       - "DJANGO_DEBUG=True"
@@ -32,6 +33,17 @@ services:
     volumes:
       - 'redisdata:/data'
     container_name: redis5_2
+  elasticsearch:
+    image: elasticsearch:8.9.1
+    container_name: elasticsearch
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
 volumes:
   postgres_data:
   redisdata:
+  elasticsearch_data:
