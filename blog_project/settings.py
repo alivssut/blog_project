@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 from environs import Env
+import os
 
 
 env = Env()
@@ -231,4 +232,12 @@ CACHES = {
 
 GRAPHENE = {
     'SCHEMA' : 'graphql.schema'
+}
+
+
+# Elasticsearch
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': os.getenv("ELASTICSEARCH_DSL_HOSTS", 'localhost:9200')
+    },
 }
