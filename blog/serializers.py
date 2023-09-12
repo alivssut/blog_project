@@ -53,3 +53,14 @@ class MyTagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ['name', 'slug']
+        
+from django_elasticsearch_dsl_drf.serializers import DocumentSerializer
+
+from .documents import PostDocument
+
+
+class PostDocumentSerializer(DocumentSerializer):
+    class Meta:
+        document = PostDocument
+        fields = ('__all__')
+

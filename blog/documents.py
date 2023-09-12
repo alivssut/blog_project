@@ -4,7 +4,7 @@ from .models import Post
 
 
 @registry.register_document
-class CategoryDocument(Document):
+class PostDocument(Document):
     class Index:
         name = 'posts'    
         settings = {
