@@ -5,6 +5,9 @@ from rest_framework.fields import CurrentUserDefault
 from taggit.serializers import (TagListSerializerField,
                                 TaggitSerializer)
 from taggit.models import Tag
+from django_elasticsearch_dsl_drf.serializers import DocumentSerializer
+
+from .documents import PostDocument
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -54,13 +57,9 @@ class MyTagSerializer(serializers.ModelSerializer):
         model = Tag
         fields = ['name', 'slug']
         
-from django_elasticsearch_dsl_drf.serializers import DocumentSerializer
-
-from .documents import PostDocument
-
 
 class PostDocumentSerializer(DocumentSerializer):
     class Meta:
         document = PostDocument
-        fields = ('__all__')
+        exclude = ['body']
 
