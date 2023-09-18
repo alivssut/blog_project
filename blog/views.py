@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated, IsAuthentic
 from .pagination import PostPagination, CommentPagination
 from taggit.models import Tag, TaggedItem
 from .serializers import MyTagSerializer
-
+from .permissions import IsOwnerPermission
 
 # post list view
 class PostListView(generics.ListAPIView):
@@ -17,7 +17,7 @@ class PostListView(generics.ListAPIView):
 # post create view
 class PostCreateView(generics.CreateAPIView):
     serializer_class = PostSerializer
-    permission_classes = [IsAdminUser,]
+    permission_classes = [IsAuthenticated,]
 
 # post detail view
 class PostDetailView(generics.RetrieveAPIView):
@@ -30,13 +30,13 @@ class PostDetailView(generics.RetrieveAPIView):
 # post update view
 class PostUpdateView(generics.UpdateAPIView):
     serializer_class = PostSerializer
-    permission_classes = [IsAdminUser,]
+    permission_classes = [IsOwnerPermission,]
     queryset = Post.objects.all()
     
 # post delete view
 class PostDeleteView(generics.DestroyAPIView):
     serializer_class = PostSerializer
-    permission_classes = [IsAdminUser,]
+    permission_classes = [IsOwnerPermission,]
 
 # Comment list view
 class CommentListView(generics.ListAPIView):
@@ -48,7 +48,7 @@ class CommentListView(generics.ListAPIView):
 # Comment create view
 class CommentCreateView(generics.CreateAPIView):
     serializer_class = CommentSerializer
-    permission_classes = [IsAdminUser, IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 # Comment detail view
 class CommentDetailView(generics.RetrieveAPIView):
@@ -58,12 +58,13 @@ class CommentDetailView(generics.RetrieveAPIView):
 # Comment update view
 class CommentUpdateView(generics.UpdateAPIView):
     serializer_class = CommentSerializer
-    permission_classes = [IsAdminUser,]
+    permission_classes = [IsOwnerPermission,]
+    queryset = Comment.objects.all()
     
 # Comment delete view
 class CommentDeleteView(generics.DestroyAPIView):
     serializer_class = CommentSerializer
-    permission_classes = [IsAdminUser,]
+    permission_classes = [IsOwnerPermission,]
 
 # post comments view
 class PostCommentView(generics.ListAPIView):
