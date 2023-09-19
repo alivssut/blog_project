@@ -9,7 +9,23 @@ class PostManager(models.Manager):
         queryset = self.filter(tags__slug=tag_slug).prefetch_related('tags').prefetch_related('category')
         return queryset
     
+    def all_posts(self, active=True):
+        if active:
+            queryset = self.filter(is_active=True).prefetch_related('tags').prefetch_related('category')
+        else:
+            queryset = self.filter().prefetch_related('tags').prefetch_related('category')
+        
+        return queryset
+    
 class CommentManager(models.Manager):
     def all_related_comments_to_post(self, post_slug):
         queryset = self.filter(post__slug=post_slug).prefetch_related('post')
+        return queryset
+    
+    def all_comments(self, active=True):
+        if active:
+            queryset = self.filter(is_active=True).prefetch_related('post')
+        else:
+            queryset = self.filter().prefetch_related('post')
+            
         return queryset

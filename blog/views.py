@@ -10,7 +10,7 @@ from .permissions import IsOwnerPermission
 # post list view
 class PostListView(generics.ListAPIView):
     pagination_class = PostPagination
-    queryset = Post.objects.all()
+    queryset = Post.objects.all_posts(active=True)
     serializer_class = PostSerializer
     permission_classes = [AllowAny,]
     
@@ -25,13 +25,13 @@ class PostDetailView(generics.RetrieveAPIView):
     permission_classes = [AllowAny,]
     lookup_url_kwarg  = 'slug'
     lookup_field = 'slug'
-    queryset = Post.objects.all()
+    queryset = Post.objects.all_posts(active=True)
     
 # post update view
 class PostUpdateView(generics.UpdateAPIView):
     serializer_class = PostSerializer
     permission_classes = [IsOwnerPermission,]
-    queryset = Post.objects.all()
+    queryset = Post.objects.all_posts(active=True)
     
 # post delete view
 class PostDeleteView(generics.DestroyAPIView):
@@ -41,7 +41,7 @@ class PostDeleteView(generics.DestroyAPIView):
 # Comment list view
 class CommentListView(generics.ListAPIView):
     pagination_class = CommentPagination
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.all_comments(active=True)
     serializer_class = CommentSerializer
     permission_classes = [AllowAny,]
     
@@ -59,7 +59,7 @@ class CommentDetailView(generics.RetrieveAPIView):
 class CommentUpdateView(generics.UpdateAPIView):
     serializer_class = CommentSerializer
     permission_classes = [IsOwnerPermission,]
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.all_comments(active=True)
     
 # Comment delete view
 class CommentDeleteView(generics.DestroyAPIView):
