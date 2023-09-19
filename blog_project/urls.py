@@ -27,6 +27,7 @@ urlpatterns = [
     path("api/v1/auth/registration/", include("dj_rest_auth.registration.urls")),
     path("api/v1/", include("blog.urls")),
     path("api/v1/", include("search.urls")),
+    path("api/v1/", include("admin_panel.urls")),
     
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
     path("api/schema/redoc/", SpectacularRedocView.as_view(
