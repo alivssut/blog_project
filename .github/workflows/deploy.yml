@@ -15,9 +15,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-
+      uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.vps_ip }}
         port: ${{ secrets.port }}
         username: root
         key: ${{ secrets.vps_private }}
+
