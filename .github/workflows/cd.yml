@@ -16,10 +16,10 @@ jobs:
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.vps_private }}
-          REMOTE_HOST: ${{ secrets.vps_ip }}
+          SSH_PRIVATE_KEY: ${{ secrets.VPS_PRIVATE }}
+          REMOTE_HOST: ${{ secrets.VPS_IP }}
           REMOTE_USER: root
-          REMOTE_PORT: ${{ secrets.vps_port }}
-          TARGET: ${{ secrets.REMOTE_TARGET }}
+          REMOTE_PORT: ${{ secrets.VPS_PORT }}
+
 
 
