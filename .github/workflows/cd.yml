@@ -13,12 +13,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: appleboy/checkout@v3
-    - name: Build the Docker image
-      uses: actions/ssh-action@master
-      with:
-        host: ${{ secrets.vps_ip }}
-        port: ${{ secrets.port }}
-        username: root
-        key: ${{ secrets.vps_private }}
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.vps_private }}
+          REMOTE_HOST: ${{ secrets.vps_ip }}
+          REMOTE_USER: root
+          REMOTE_PORT: ${{ secrets.vps_port }}
+          TARGET: ${{ secrets.REMOTE_TARGET }}
+
 
