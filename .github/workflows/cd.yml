@@ -14,14 +14,12 @@ jobs:
 
     steps:
       - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@main
+        uses: actions/ssh-deploy@master
         env:
           SSH_PRIVATE_KEY: ${{ secrets.VPS_PRIVATE }}
           REMOTE_HOST: ${{ secrets.VPS_IP }}
           REMOTE_USER: root
           REMOTE_PORT: ${{ secrets.VPS_PORT }}
           script: |
-            cd /home/root/projects/
-            git init
-
-
+            cd /home/root/project/
+            git pull origin master
