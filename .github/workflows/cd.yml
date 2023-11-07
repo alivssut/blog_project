@@ -20,7 +20,7 @@ jobs:
           REMOTE_HOST: ${{ secrets.VPS_IP }}
           REMOTE_USER: root
           REMOTE_PORT: ${{ secrets.VPS_PORT }}
-          server-dir: /home/root/project/
+          server-dir: /home/root/projects/
           script: |
-            cd /home/root/project/
+            cd /home/root/projects/
             git pull origin master
