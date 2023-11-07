@@ -22,6 +22,6 @@ jobs:
           REMOTE_PORT: ${{ secrets.VPS_PORT }}
           script: |
             cd /home/root/projects/
-            git pull origin master
+            git init
 
 
