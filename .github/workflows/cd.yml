@@ -23,4 +23,4 @@ jobs:
           
           script: |
             cd /home/root/projects/
-            git pull origin master
+            git pull https://github.com/alivssut/blog_project.git master
