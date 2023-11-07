@@ -21,7 +21,7 @@ jobs:
           REMOTE_USER: root
           REMOTE_PORT: ${{ secrets.VPS_PORT }}
           script: |
-            cd /home/root/project/
-            git pull
+            cd /home/root/projects/
+            git pull origin master
 
 
