@@ -14,12 +14,13 @@ jobs:
 
     steps:
       - name: Deploy to Server
-        uses: actions/ssh-deploy@master
+        uses: actions/checkout@master
         env:
           SSH_PRIVATE_KEY: ${{ secrets.VPS_PRIVATE }}
           REMOTE_HOST: ${{ secrets.VPS_IP }}
           REMOTE_USER: root
           REMOTE_PORT: ${{ secrets.VPS_PORT }}
+          server-dir: /home/root/project/
           script: |
             cd /home/root/project/
             git pull origin master
