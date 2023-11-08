@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Deploy to Server
-        uses: actions/upload-artifact@v2
+        uses: appleboy/ssh-action@master
         env:
           SSH_PRIVATE_KEY: ${{ secrets.VPS_PRIVATE }}
           REMOTE_HOST: ${{ secrets.VPS_IP }}
