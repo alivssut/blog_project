@@ -1,26 +1,21 @@
-name: Docker Image CI
-
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
-
+    branches:
+      - master
+  workflow_dispatch:
+  
 jobs:
-
-  build:
-
+  run_pull:
+    name: run pull
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Deploy to Server
-        uses: shimataro/ssh-key-action@v2
-        env:
-          key: ${{ secrets.VPS_PRIVATE }}
-          known_hosts: ${{ secrets.VPS_IP }}
-          REMOTE_USER: root
-          REMOTE_PORT: ${{ secrets.VPS_PORT }}
-          
-      - name: Pull
-        run: ssh root@194.33.105.155 "cd /home/root/projects/ & /usr/bin/git pull origin master"
-            
+    - name: install ssh keys
+      run: |
+        install -m 600 -D /dev/null ~/.ssh/id_rsa
+        echo "${{ secrets.VPS_PRIVATE }}" > ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.VPS_IP }} > ~/.ssh/known_hosts
+    - name: connect and pull
+      run: ssh root@${{ secrets.VPS_IP }} "cd ${{ secrets.VPS_WORK_DIR }} && git checkout master && git pull && exit"
+    - name: cleanup
+      run: rm -rf ~/.ssh
