@@ -14,13 +14,13 @@ jobs:
 
     steps:
       - name: Deploy to Server
-        uses: appleboy/ssh-action@master
+        uses: shimataro/ssh-key-action@v2
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.VPS_PRIVATE }}
-          REMOTE_HOST: ${{ secrets.VPS_IP }}
+          key: ${{ secrets.VPS_PRIVATE }}
+          known_hosts: ${{ secrets.VPS_IP }}
           REMOTE_USER: root
           REMOTE_PORT: ${{ secrets.VPS_PORT }}
           
-          script: |
-            cd /home/root/projects/
-            git pull https://github.com/alivssut/blog_project.git master
+      - name: Pull
+        run: ssh root@194.33.105.155 "cd /home/root/projects/ & /usr/bin/git pull origin master"
+            
