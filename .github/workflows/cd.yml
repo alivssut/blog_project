@@ -15,6 +15,6 @@ jobs:
             host: ${{ secrets.VPS_IP }}
             username: root
             password: ${{ secrets.VPS_PASSWORD }}
-            source: "/home/runner/work/blog_project/"
+            source: "/home/runner/work/blog_project/.output"
             target: ${{ secrets.VPS_WORK_DIR }}
 
