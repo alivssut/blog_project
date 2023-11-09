@@ -6,6 +6,7 @@ on:
   
 jobs:
   deploy:
+    name: deploy
     runs-on: ubuntu-latest
     steps:
       
@@ -15,6 +16,6 @@ jobs:
             host: ${{ secrets.VPS_IP }}
             username: root
             password: ${{ secrets.VPS_PASSWORD }}
-            source: "blog_project/"
+            source: "./"
             target: ${{ secrets.VPS_WORK_DIR }}
 
