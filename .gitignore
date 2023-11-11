@@ -160,6 +160,8 @@ Thumbs.db
 
 # uploads
 uploads/user_profile/avatars/*
+backend/uploads/user_profile/avatars/*
+backend/uploads/*
 
 
 # End of https://www.toptal.com/developers/gitignore/api/django
