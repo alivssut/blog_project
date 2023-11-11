@@ -5,17 +5,18 @@ on:
   workflow_dispatch:
   
 jobs:
-  run_pull:
-    name: run pull
+  deploy:
+    name: deploy
     runs-on: ubuntu-latest
-    
     steps:
-    - name: install ssh keys
-      run: |
-        install -m 600 -D /dev/null ~/.ssh/id_rsa
-        echo "${{ secrets.VPS_PRIVATE }}" > ~/.ssh/id_rsa
-        ssh-keyscan -H ${{ secrets.VPS_IP }} > ~/.ssh/known_hosts
-    - name: connect and pull
-      run: ssh root@${{ secrets.VPS_IP }} "cd ${{ secrets.VPS_WORK_DIR }} && git checkout master && git pull && exit"
-    - name: cleanup
-      run: rm -rf ~/.ssh
+      
+        - name: Deploy on server
+          uses: appleboy/scp-action@v0.1.3
+          with:
+            host: ${{ secrets.VPS_IP }}
+            port: ${{ secrets.VPS_PORT }}
+            username: root
+            password: ${{ secrets.VPS_PASSWORD }}
+            source: "./"
+            target: ${{ secrets.VPS_WORK_DIR }}
+
