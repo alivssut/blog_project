@@ -164,4 +164,13 @@ backend/uploads/user_profile/avatars/*
 backend/uploads/*
 
 
+# frontend
+
+frontend/node_modules/*
+
+
+# statics
+
+backend/static/*
+
 # End of https://www.toptal.com/developers/gitignore/api/django

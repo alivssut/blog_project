@@ -2,7 +2,7 @@ version: "3.9"
 services:
   backend:
     build: ./backend
-    command: python /backend/manage.py runserver 0.0.0.0:8000
+    command: gunicorn blog_project.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - ./backend:/backend
     ports:
@@ -20,6 +20,14 @@ services:
       - "DJANGO_SECURE_HSTS_PRELOAD=False"
       - "DJANGO_SESSION_COOKIE_SECURE=False"
       - "DJANGO_CSRF_COOKIE_SECURE=False"
+  frontend:
+    container_name: frontend
+    build: ./frontend
+    ports:
+      - 3000:3000
+    command: npm start
+    depends_on:
+      - backend
   db:
     image: postgres:13
     volumes:
