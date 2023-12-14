@@ -2,15 +2,15 @@
 FROM node:lts-alpine
 # set work directory
 WORKDIR /frontend
+ENV PATH /frontend/node_modules/.bin:$PATH
 
-COPY ./package.json .
-COPY ./package-lock.json .
+EXPOSE 3000
 
+# Install and configure `serve`.
 RUN npm install -g serve
-RUN npm install
 
-# copy react project
+# Copy source code to image
 COPY . .
 
-# build react project
-RUN npm run build
+# Install dependencies
+RUN npm install
