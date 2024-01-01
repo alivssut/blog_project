@@ -10,11 +10,12 @@ import {
 } from 'reactstrap'
 // import './NavigationBar.css'
 import {Link} from 'react-router-dom'
+import Slideshow from '../components/slider/slider'
 
 function HomePage() {
   return (
-	<div>
-        
+	  <div>
+        <Slideshow/>
     </div>
   )
 }
