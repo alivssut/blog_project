@@ -18,8 +18,8 @@ function NavigationBar() {
             navbarScroll
           >
             <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="#action2">Link</Nav.Link>
-            <NavDropdown title="Link" id="navbarScrollingDropdown">
+            <Nav.Link href="/posts/">posts</Nav.Link>
+            <NavDropdown title="categories" id="navbarScrollingDropdown">
               <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action4">
                 Another action
