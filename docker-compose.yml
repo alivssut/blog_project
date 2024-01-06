@@ -32,6 +32,8 @@ services:
     command: npm start
     depends_on:
       - backend
+    volumes:
+      - ./frontend:/frontend
   db:
     image: postgres:13
     volumes:
