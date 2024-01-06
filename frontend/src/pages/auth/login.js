@@ -1,15 +1,32 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Perform login operation
-    console.log('Login:', email, password);
+    const userData = {
+      'email': email,
+      'username': username,
+      'password': password,
+    };
+    const headers = {
+      headers:{
+        'Accept': 'application/json',
+        'X-CSRFToken': 'mvyDoM3ZJ1fTkxYGgkwd0pFI1qOjrPA7',
+        'sessionid': '66l253ozn2zp2loxz9jp6j718h8obs2x',
+        'Access-Control-Allow-Origin': "*"
+      }
+    };
+    axios.post("http://localhost:8000/api/v1/auth/login/", userData, headers).then((response) => {
+      console.log(response.status);
+    }).catch((error) => console.log(error));
+
   };
 
   return (
@@ -26,6 +43,16 @@ const Login = () => {
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                />
+              </Form.Group>
+
+              <Form.Group controlId="formUsername">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                  type="username"
+                  placeholder="Enter your username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </Form.Group>
 
