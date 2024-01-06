@@ -34,6 +34,9 @@ CSRF_TRUSTED_ORIGINS = ['http://*.bigmountain.sbs','http://*.127.0.0.1']
 
 ALLOWED_HOSTS = ["*"]
 
+# CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
 
 # Application definition
 
@@ -67,11 +70,13 @@ INSTALLED_APPS = [
     'graphene_django',
     'django_elasticsearch_dsl',
     'django_elasticsearch_dsl_drf',
+    'corsheaders',
 ]
 
 SITE_ID = 1
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
