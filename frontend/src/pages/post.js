@@ -1,30 +1,24 @@
 import React from 'react';
+import { useState, useEffect } from "react";
 import { Card, Container, Row, Col } from 'react-bootstrap';
 import './PostPage.css';
 import PaginationComponent from '../components/pagination'
-
+import axios from "axios";
 
 const PostPage = () => {
-  const posts = [
-    {
-      id: 1,
-      title: 'Post 1',
-      description: 'This is the description of post 1.',
-      imageUrl: 'https://example.com/image1.jpg',
-    },
-    {
-      id: 2,
-      title: 'Post 2',
-      description: 'This is the description of post 2.',
-      imageUrl: 'https://example.com/image2.jpg',
-    },
-    {
-      id: 3,
-      title: 'Post 3',
-      description: 'This is the description of post 3 klfnjkdb hjgbhdbff dklj njkgbdj kgfbjkgbjh dbhjgbhj bdfgdkjn kbg jkdbgkbkdb kgbjkdjbgkdbgb dkbg kdbgfkb dkgfbkdbfgkbdkgbkdbgkskbgkd kgbh.',
-      imageUrl: 'https://images.unsplash.com/photo-1509721434272-b79147e0e708?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
-    },
-  ];
+  const [posts, setPosts] = useState([])
+  const [count, setCount] = useState([])
+  const search = window.location.search;
+  const params = new URLSearchParams(search); 
+  useEffect(() => {
+    axios.get("http://localhost:8000/api/v1/posts?page="+(params.get('page') == null ? 1 : params.get('page') )).then((response) => {
+      if (response.status === 200 ){
+        console.log(response.data)
+        setCount(response.data.count)
+        setPosts(response.data.results)
+      }
+    }).catch((error) => console.log(error));
+  }, []); 
 
   return (
     <div>
@@ -35,11 +29,11 @@ const PostPage = () => {
             {posts.map((post) => (
               <div key={post.id} className="post-item">
                 <div className="post-image">
-                  <img src={post.imageUrl} alt={post.title} />
+                  <img src={post.image} alt={post.title} />
                 </div>
                 <div className="post-content">
                   <h3>{post.title}</h3>
-                  <p>{post.description}</p>
+                  <p>{post.summary}</p>
                 </div>
               </div>
             ))}
@@ -47,7 +41,7 @@ const PostPage = () => {
         </Col>
       </Row>
     </Container>
-    <PaginationComponent/>
+    <PaginationComponent count={count} currentPage={params.get('page') == null ? 1 : params.get('page') }/>
     </div>
   );
 };

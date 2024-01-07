@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate  } from 'react-router-dom';
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const getPageNumbers = () => {
@@ -106,12 +107,15 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   );
 };
 
-const PaginationComponent = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 10;
+function  PaginationComponent (props) {
+  const [currentPage, setCurrentPage] = useState(parseInt(props.currentPage));
+  const totalPages = Math.ceil(props.count / 5);
+  const navigate = useNavigate();
 
   const handlePageChange = (page) => {
+    navigate("/posts?page="+page);
     setCurrentPage(page);
+    navigate(0);
   };
 
   return (
