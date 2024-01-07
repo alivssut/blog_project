@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate  } from 'react-router-dom';
 import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -18,14 +20,18 @@ const Login = () => {
     const headers = {
       headers:{
         'Accept': 'application/json',
-        'X-CSRFToken': 'mvyDoM3ZJ1fTkxYGgkwd0pFI1qOjrPA7',
-        'sessionid': '66l253ozn2zp2loxz9jp6j718h8obs2x',
-        'Access-Control-Allow-Origin': "*"
+        'content-type':'application/json',
       }
     };
     axios.post("http://localhost:8000/api/v1/auth/login/", userData, headers).then((response) => {
-      console.log(response.status);
-    }).catch((error) => console.log(error));
+      if (response.status === 200 ){
+        localStorage.setItem('token', response.data.key);
+        navigate("/");
+      }
+    }).catch((error) => {
+      console.log(error)
+      setError(error.message)
+    });
 
   };
 
@@ -73,6 +79,10 @@ const Login = () => {
 
             <p className="text-center mt-3">
               Don't have an account? <Link to="/register">Register</Link>
+            </p>
+
+            <p className="text-center mt-3 text-danger">
+              {error}
             </p>
           </div>
         </Col>
