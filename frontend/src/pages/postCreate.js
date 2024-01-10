@@ -132,7 +132,7 @@ export default function RichTextEditor() {
       method: "post",
       url: "http://localhost:8000/api/v1/posts/create/",
       data: bodyFormData,
-      headers: { "Content-Type": "multipart/form-data", "authorization": "token 8d603a78f3a342f4dca0bb2b81fb609b82ccf1e4"
+      headers: { "Content-Type": "multipart/form-data", "authorization": "token " + localStorage.getItem('token')
     },
     })
       .then(function (response) {
