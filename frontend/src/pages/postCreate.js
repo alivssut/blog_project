@@ -33,22 +33,41 @@ export default function RichTextEditor() {
     const navigate = useNavigate();
 
     useEffect(() => {
-      axios.get("http://localhost:8000/api/v1/categories/").then((response) => {
-        if (response.status === 200 ){
-          const convertedJson = response.data.results.map(item => {
-            return Object.keys(item).reduce((acc, key) => {
-              if (key === 'id') {
-                acc['key'] = item[key];
-              } else if (key === 'name') {
-                acc['value'] = item[key];
-              }
-              return acc;
-            }, {});
-          });
-          setCategoryOptions(convertedJson)
-        
-        }
-      }).catch((error) => console.log(error));
+
+      axios({
+          method: "get",
+          url: "http://localhost:8000/api/v1/auth/user/",
+          headers: { "Content-Type": "multipart/form-data", "authorization": "token " + localStorage.getItem('token')
+        },
+        }).then((response) => {
+
+
+          axios.get("http://localhost:8000/api/v1/categories/").then((response) => {
+            if (response.status === 200 ){
+              const convertedJson = response.data.results.map(item => {
+                return Object.keys(item).reduce((acc, key) => {
+                  if (key === 'id') {
+                    acc['key'] = item[key];
+                  } else if (key === 'name') {
+                    acc['value'] = item[key];
+                  }
+                  return acc;
+                }, {});
+              });
+              setCategoryOptions(convertedJson)
+            
+            }
+          }).catch((error) => console.log(error));
+
+
+        }).catch((error) => {
+          if (error.response.status === 401)
+              navigate("/login/");
+        });
+    
+
+
+
     }, []); 
 
 
