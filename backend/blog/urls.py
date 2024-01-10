@@ -5,10 +5,10 @@ from .views import CatagoryListView, CatagoryPostsListView
 from django.views.decorators.cache import cache_page
 
 urlpatterns = [
+    path("posts/create/", PostCreateView.as_view(), name="post_create"),
     path("posts/<slug:slug>/", PostDetailView.as_view(), name="post_detail"),
     path("posts/<int:pk>/update/", PostUpdateView.as_view(), name="post_update"),
     path("posts/<int:pk>/delete/", PostDeleteView.as_view(), name="post_delete"),
-    path("posts/create/", PostCreateView.as_view(), name="post_create"),
     path("posts/", cache_page(60 * 5)(PostListView.as_view()), name="post_list"),
     path("posts/<slug:slug>/comments/", PostCommentView.as_view(), name="post_comments"),
     
