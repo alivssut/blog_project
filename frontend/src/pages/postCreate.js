@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import ReactQuill, { Quill } from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import ImageUploader from "quill-image-uploader";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Form, Button } from 'react-bootstrap'
+import CreatableSelect from 'react-select/creatable';
+import { TagsInput } from "react-tag-input-component";
+import axios from "axios";
+import { Multiselect } from "multiselect-react-dropdown";
+
 Quill.register("modules/imageUploader", ImageUploader);
 
 export default function RichTextEditor() {
@@ -12,10 +17,17 @@ export default function RichTextEditor() {
     const [urlTitle, setUrlTitle] = useState('');
     const [summary, setSummary] = useState('');
     const [image, setImage] = useState('');
-    const handleChange = (content) => {
-        setContent(content);
-        console.log(content)
-    };
+    const [imageFile, setImageFile] = useState(null);
+    const [categories, setCategories] = useState([]);
+    const [categoriesSlected, setCategoriesSelected] = useState([]);
+    const [tags, setTags] = useState([]);
+
+
+    const options = [
+      { key: 1, value: 'Option1' },
+      { key: 2, value: 'Option2' },
+      { key: 3, value: 'Option3' },
+    ];
 
     const modules = {
         toolbar: {
@@ -58,14 +70,15 @@ export default function RichTextEditor() {
     'video',
   ];
 
-
+  const handleContentChange = (content) => {
+    setContent(content);
+  };
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
   };
   const handleUrlTitleChange = (event) => {
     setUrlTitle(event.target.value);
   };
-
   const handleSummaryChange = (event) => {
     setSummary(event.target.value);
   };
@@ -73,11 +86,41 @@ export default function RichTextEditor() {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setImage(URL.createObjectURL(file));
+    setImageFile(file)
   };
+
+  const handleCategorySelect = (selectedList, selectedItem) => {
+      const selectedKeys = selectedList.map(item => item.key);
+      setCategoriesSelected(selectedKeys)
+      setCategories(selectedList);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    // انجام عملیات مربوط به ثبت فرم
+    var bodyFormData = new FormData();
+    bodyFormData.append('title', title);
+    bodyFormData.append('slug', urlTitle);
+    bodyFormData.append('body', content);
+    bodyFormData.append('summary', summary);
+    bodyFormData.append('tags', tags);
+    bodyFormData.append('image', imageFile);
+    bodyFormData.append('category', categoriesSlected);
+    axios({
+      method: "post",
+      url: "http://localhost:8000/api/v1/posts/create/",
+      data: bodyFormData,
+      headers: { "Content-Type": "multipart/form-data", "authorization": "token 8d603a78f3a342f4dca0bb2b81fb609b82ccf1e4"
+    },
+    })
+      .then(function (response) {
+        console.log(response)
+      })
+      .catch(function (response) {
+        //handle error
+        console.log(response);
+      });
   };
+
   return (
 
       <div>
@@ -116,24 +159,30 @@ export default function RichTextEditor() {
             />
           </Form.Group>
 
-          <Form.Group controlId="urlTitle">
+          <Form.Group controlId="category">
           <label>
-
           Category
-
-          {/* <select value={value} onChange={handleCategoryChange}>
-
-            <option value="fruit">Fruit</option>
-
-            <option value="vegetable">Vegetable</option>
-
-            <option value="meat">Meat</option>
-
-          </select> */}
-
+            <Multiselect
+            options={options}
+            selectedValues={categories}
+            onSelect={handleCategorySelect}
+            onRemove={handleCategorySelect}
+            displayValue="value"
+          />
           </label>
           </Form.Group>
 
+          <Form.Group controlId="tags">
+          <label>
+          Tags
+          <TagsInput
+            value={tags}
+            onChange={setTags}
+            name="tags"
+            placeHolder="enter tags"
+          />
+      </label></Form.Group> 
+          
           <Form.Group controlId="image">
             <Form.Label>Image</Form.Label>
             <Form.Control type="file" accept="image/*" onChange={handleImageChange} />
@@ -149,14 +198,14 @@ export default function RichTextEditor() {
           <Form.Label>Content</Form.Label>
           <ReactQuill
               value={content}
-              onChange={handleChange}
+              onChange={handleContentChange}
               modules={modules}
               formats={formats}
             />
         </Form.Group>
 
         <Button variant="primary" type="submit">
-          ارسال
+          Submit
         </Button>
       </Form>
     </div>
