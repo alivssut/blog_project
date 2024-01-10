@@ -111,6 +111,7 @@ class TagPostsListView(generics.ListAPIView):
 
 # categories
 class CatagoryListView(generics.ListAPIView):
+    pagination_class = None
     serializer_class = CategorySerializer
     authentication_classes = [TokenAuthentication]
     permission_classes = [AllowAny,]

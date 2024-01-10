@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from taggit.managers import TaggableManager
 from accounts.models import User
 from .managers import PostManager, CommentManager
+from ckeditor_uploader.fields import RichTextUploadingField
 
 # Catagory model
 class Catagory(models.Model):
@@ -23,7 +24,7 @@ class Catagory(models.Model):
 class Post(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, unique=True)
-    body = models.TextField()
+    body = RichTextUploadingField()
     image = models.ImageField(default='default_post_pic.png',
                               upload_to='post_pics')
     summary = models.CharField(max_length=800, blank=True, verbose_name="summary")
