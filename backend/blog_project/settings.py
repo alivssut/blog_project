@@ -261,6 +261,8 @@ ELASTICSEARCH_DSL = {
 
 ### ckeditor
 
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 # CKEDITOR_CONFIGS = {
 # 'portal_config': {
