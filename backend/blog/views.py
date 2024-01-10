@@ -23,12 +23,21 @@ class PostCreateView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated,]
 
 # post detail view
-class PostDetailView(generics.RetrieveAPIView):
+class PostDetailBySlugView(generics.RetrieveAPIView):
     serializer_class = PostSerializer
     authentication_classes = [TokenAuthentication]
     permission_classes = [AllowAny,]
     lookup_url_kwarg  = 'slug'
     lookup_field = 'slug'
+    queryset = Post.objects.all_posts(active=True)
+    
+# post detail by id view
+class PostDetailByIdView(generics.RetrieveAPIView):
+    serializer_class = PostSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [AllowAny,]
+    lookup_url_kwarg  = 'id'
+    lookup_field = 'id'
     queryset = Post.objects.all_posts(active=True)
     
 # post update view
