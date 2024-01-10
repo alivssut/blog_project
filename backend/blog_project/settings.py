@@ -222,8 +222,6 @@ REST_FRAMEWORK = {
     ],
 }
 
-
-
 # Schema
 
 SPECTACULAR_SETTINGS = {
