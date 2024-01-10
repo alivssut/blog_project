@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Register from './pages/auth/register';
 import PostPage from './pages/post';
 import PostDetail from './pages/postDetail';
+import RichTextEditor from './pages/postCreate';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route exact path="register" element={<Register/>} />
           <Route exact path="posts" element={<PostPage/>} />
           <Route exact path="posts/:postId" element={<PostDetail/>} />
+          <Route exact path="posts/create" element={<RichTextEditor/>} />
         </Routes >
         <Footer />
       </Router>
