@@ -1,33 +1,56 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactQuill, { Quill } from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import ImageUploader from "quill-image-uploader";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Form, Button } from 'react-bootstrap'
-import CreatableSelect from 'react-select/creatable';
 import { TagsInput } from "react-tag-input-component";
 import axios from "axios";
 import { Multiselect } from "multiselect-react-dropdown";
+import { useNavigate  } from 'react-router-dom';
 
 Quill.register("modules/imageUploader", ImageUploader);
 
 export default function RichTextEditor() {
     const [content, setContent] = useState('');
+    const [contentErrorMessage, setContentErrorMessage] = useState('');
     const [title, setTitle] = useState('');
+    const [titleErrorMessage, setTitlerrorMessage] = useState('');
     const [urlTitle, setUrlTitle] = useState('');
+    const [urlTitleErrorMessage, setUrlTitleErrorMessage] = useState('');
     const [summary, setSummary] = useState('');
+    const [summaryErrorMessage, setSummaryErrorMessage] = useState('');
     const [image, setImage] = useState('');
+    const [imageErrorMessage, setImageErrorMessage] = useState('');
     const [imageFile, setImageFile] = useState(null);
     const [categories, setCategories] = useState([]);
+    const [categoriesErrorMessage, setCategoriesErrorMessage] = useState([]);
     const [categoriesSlected, setCategoriesSelected] = useState([]);
     const [tags, setTags] = useState([]);
+    const [tagsErrorMessage, setTagsErrorMessage] = useState([]);
+    const [error, setError] = useState('');
+    const [categoryOptions, setCategoryOptions] = useState([]);
+    const navigate = useNavigate();
 
+    useEffect(() => {
+      axios.get("http://localhost:8000/api/v1/categories/").then((response) => {
+        if (response.status === 200 ){
+          const convertedJson = response.data.results.map(item => {
+            return Object.keys(item).reduce((acc, key) => {
+              if (key === 'id') {
+                acc['key'] = item[key];
+              } else if (key === 'name') {
+                acc['value'] = item[key];
+              }
+              return acc;
+            }, {});
+          });
+          setCategoryOptions(convertedJson)
+        
+        }
+      }).catch((error) => console.log(error));
+    }, []); 
 
-    const options = [
-      { key: 1, value: 'Option1' },
-      { key: 2, value: 'Option2' },
-      { key: 3, value: 'Option3' },
-    ];
 
     const modules = {
         toolbar: {
@@ -113,11 +136,47 @@ export default function RichTextEditor() {
     },
     })
       .then(function (response) {
-        console.log(response)
+        if (response.status === 201){
+          navigate("/posts/"+response.data.id);
+        }
       })
-      .catch(function (response) {
+      .catch(function (error) {
         //handle error
-        console.log(response);
+        if(error.response.data.hasOwnProperty('title')){
+          setTitlerrorMessage(error.response.data.title.join(', '))
+        }else{
+          setTitlerrorMessage('')
+        }
+        if(error.response.data.hasOwnProperty('summary')){
+          setSummaryErrorMessage(error.response.data.summary.join(', '))
+        }else{
+          setSummaryErrorMessage('')
+        }
+        if(error.response.data.hasOwnProperty('body')){
+          setContentErrorMessage(error.response.data.body.join(', '))
+        }else{
+          setContentErrorMessage('')
+        }
+        if(error.response.data.hasOwnProperty('slug')){
+          setUrlTitleErrorMessage(error.response.data.slug.join(', '))
+        }else{
+          setUrlTitleErrorMessage('')
+        }
+        if(error.response.data.hasOwnProperty('image')){
+          setImageErrorMessage(error.response.data.image.join(', '))
+        }else{
+          setImageErrorMessage('')
+        }
+        if(error.response.data.hasOwnProperty('category')){
+          setCategoriesErrorMessage(error.response.data.category.join(', '))
+        }else{
+          setCategoriesErrorMessage('')
+        }
+        if(error.response.data.hasOwnProperty('tags')){
+          setTagsErrorMessage(error.response.data.tags.join(', '))
+        }else{
+          setTagsErrorMessage('')
+        }
       });
   };
 
@@ -135,6 +194,7 @@ export default function RichTextEditor() {
               placeholder="Enter the title"
               maxLength="200"
             />
+            <p className='text-danger'>{titleErrorMessage}</p>
           </Form.Group>
 
           <Form.Group controlId="summary">
@@ -146,6 +206,7 @@ export default function RichTextEditor() {
               placeholder="Enter the summary"
               maxLength="800"
             />
+            <p className='text-danger'>{summaryErrorMessage}</p>
           </Form.Group>
 
           <Form.Group controlId="urlTitle">
@@ -157,19 +218,21 @@ export default function RichTextEditor() {
               placeholder="Enter the url title (slug)"
               maxLength="800"
             />
+            <p className='text-danger'>{urlTitleErrorMessage}</p>
           </Form.Group>
 
           <Form.Group controlId="category">
           <label>
           Category
             <Multiselect
-            options={options}
+            options={categoryOptions}
             selectedValues={categories}
             onSelect={handleCategorySelect}
             onRemove={handleCategorySelect}
             displayValue="value"
           />
           </label>
+          <p className='text-danger'>{categoriesErrorMessage}</p>
           </Form.Group>
 
           <Form.Group controlId="tags">
@@ -181,11 +244,14 @@ export default function RichTextEditor() {
             name="tags"
             placeHolder="enter tags"
           />
-      </label></Form.Group> 
+      </label>
+      <p className='text-danger'>{tagsErrorMessage}</p>
+      </Form.Group> 
           
           <Form.Group controlId="image">
             <Form.Label>Image</Form.Label>
             <Form.Control type="file" accept="image/*" onChange={handleImageChange} />
+            <p className='text-danger'>{imageErrorMessage}</p>
           </Form.Group>
           
           {image && (
@@ -202,11 +268,13 @@ export default function RichTextEditor() {
               modules={modules}
               formats={formats}
             />
+            <p className='text-danger'>{contentErrorMessage}</p>
         </Form.Group>
 
         <Button variant="primary" type="submit">
           Submit
         </Button>
+        <p>{error}</p>
       </Form>
     </div>
   );
