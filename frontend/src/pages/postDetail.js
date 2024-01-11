@@ -1,31 +1,96 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import axios from "axios";
 import './postDetail.css';
+import ReactQuill, { Quill } from "react-quill";
+import 'react-quill/dist/quill.bubble.css'
+import "./../static/css/postdetail.css";
 
 const PostDetail = () => {
   const { postId } = useParams();
-  const [post, setPost] = useState(null);
+  const [post, setPost] = useState([]);
+  const [id, setId] = useState();
+  const [title, setTitle] = useState('')
+  const [body, setBody] = useState('');
+  const [summary, setSummary] = useState('');
+  const [ownerId, setOwnerId] = useState();
+  const [created, setCreated] = useState('');
+  const [updated, setUpdated] = useState('');
+  const [slug, setSlug] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+  const [tags, setTags] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    // در این قسمت می‌توانید درخواست به سرور برای دریافت جزئیات پست با شناسه postId ارسال کنید
-    // و سپس نتیجه را با استفاده از setPost درون state قرار دهید
 
-    // مثالی از دریافت جزئیات پست از یک API فرضی:
-    // fetch(`https://api.example.com/posts/${postId}`)
-    //   .then(response => response.json())
-    //   .then(data => setPost(data))
-    //   .catch(error => console.log(error));
-  }, [postId]);
+    axios({
+      method: "get",
+      url: "http://localhost:8000/api/v1/posts/"+ postId +"/id/",
+      headers: { "Content-Type": "multipart/form-data", "authorization": "token " + localStorage.getItem('token')
+    },
+    }).then((response) => {
+      const data = response.data;
+      setTitle(data.title);
+      setBody(data.body);
+      setCategories(data.category);
+      setTags(data.tags);
+      setId(data.id);
+      setImageUrl(data.image);
+      setOwnerId(data.owner);
+      setSlug(data.slug);
+      const date = new Date(data.created)
+      const formattedDate = date.toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      })
+      setCreated(formattedDate)
+      date = new Date(data.updated)
+      formattedDate = date.toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      })
+      setUpdated(formattedDate)
+    }).catch((error) => {
+    });
+  }, []);
+
+  useEffect(() => {
+
+    console.log("Changed Widgets: ", post)
+
+}, [title])
 
   if (!post) {
     return <div className='loading'>Loading...</div>;
   }
 
   return (
-    <div className='post'>
-      <h2 className='title'>{post.title}</h2>
-      <p className='body'>{post.body}</p>
-      {/* دیگر جزئیات پست را در اینجا نمایش دهید */}
+    <div className="post-detail-container">
+    <h1 className="post-detail-heading">{title}</h1>
+    <div className='post-detail-categories'>
+      {categories.map((category, index) => (
+        <span key={index} className="post-detail-category">{category}.</span>
+      ))}
+      </div>
+    <p>last update: {created}</p>
+    <img className="post-detail-image" src={imageUrl} alt="post" />
+    <div class="post-detail-tags">
+    {tags.map((tag, index) => (
+        <span key={index} className="post-detail-tag">{tag}</span>
+      ))}
+    </div>
+    <div className='post-detail-body'>
+      <ReactQuill
+          value={body}
+          readOnly={true}
+          theme={"bubble"}
+        />
+      </div>
+    <div className="post-detail-author">	
+      <h4>Written by: {ownerId}</h4>
+    </div>
     </div>
   );
 };
