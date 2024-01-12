@@ -20,7 +20,7 @@ function NavigationBar() {
       },
     }).then((response) => {
       const data = response.data;
-      setCategories(data.results.map(item => [{ "id": item.id, "name": item.name }]))
+      setCategories(data.results.map(item => [{ "id": item.id, "name": item.name, "slug": item.slug}]))
     }).catch((error) => {
     });
   }, []);
@@ -41,7 +41,7 @@ function NavigationBar() {
             <Nav.Link href="/posts/">posts</Nav.Link>
             <NavDropdown title="categories" id="navbarScrollingDropdown">
               {categories.map((category, index) => (
-                <NavDropdown.Item href={'categories/' + category[0].id}>{category[0].name}</NavDropdown.Item>
+                <NavDropdown.Item href={'categories/' + category[0].slug}>{category[0].name}</NavDropdown.Item>
               ))}
             </NavDropdown>
             <Nav.Link href="#" disabled>

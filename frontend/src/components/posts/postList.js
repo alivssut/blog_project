@@ -1,30 +1,54 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
+import React from 'react';
+import { useState, useEffect } from "react";
+import { Card, Container, Row, Col } from 'react-bootstrap';
+import axios from "axios";
+import { Link } from "react-router-dom";
 
-export default function PostList() {
+export default function PostList(props) {
+  const [posts, setPosts] = useState([])
+  useEffect(() => {
+    axios.get("http://localhost:8000/api/v1/posts?page=" + props.page).then((response) => {
+      if (response.status === 200) {
+        setPosts(response.data.results)
+        props.countHandler(response.data.count)
+      }
+    }).catch((error) => console.log(error));
+  }, []);
+
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image="data:image/jpeg;base64,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"
-          alt="green iguana"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Lizard
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+    <div>
+      <Container>
+        <Row>
+          <Col>
+            <div className="posts-container">
+              {posts.map((post) => {
+                const date = new Date(post.updated)
+                const formattedDate = date.toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric"
+                })
+                return (
+                  <div key={post.id} className="posts-item">
+                    <Link to={'/posts/' + post.id} className='posts-link'>
+                      <div className="posts-image">
+                        <img src={post.image} alt={post.title} />
+                      </div>
+                    </Link>
+                    <div className="posts-content">
+                      <Link to={'/posts/' + post.id} className='posts-link'>
+                        <h3>{post.title}</h3>
+                        <p>{formattedDate}</p>
+                      </Link>
+                      <p className='posts-summary'>{post.summary}</p>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 }
