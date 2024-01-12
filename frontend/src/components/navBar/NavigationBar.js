@@ -4,8 +4,28 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import React, { useEffect, useState } from 'react';
+import axios from "axios";
 
 function NavigationBar() {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+
+    axios({
+      method: "get",
+      url: "http://localhost:8000/api/v1/categories/",
+      headers: {
+        "Content-Type": "multipart/form-data"
+      },
+    }).then((response) => {
+      const data = response.data;
+      setCategories(data.results.map(item => [{ "id": item.id, "name": item.name }]))
+    }).catch((error) => {
+    });
+  }, []);
+
+
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container fluid>
@@ -20,14 +40,9 @@ function NavigationBar() {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/posts/">posts</Nav.Link>
             <NavDropdown title="categories" id="navbarScrollingDropdown">
-              <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action4">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action5">
-                Something else here
-              </NavDropdown.Item>
+              {categories.map((category, index) => (
+                <NavDropdown.Item href={'categories/' + category[0].id}>{category[0].name}</NavDropdown.Item>
+              ))}
             </NavDropdown>
             <Nav.Link href="#" disabled>
               Link
