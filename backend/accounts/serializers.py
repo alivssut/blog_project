@@ -21,3 +21,8 @@ class CustomRegisterSerializer(RegisterSerializer):
        UserProfile.objects.create(user=user)
        return user
        
+       
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ("id","username", "first_name", "last_name")
+        model = User
