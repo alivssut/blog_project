@@ -14,7 +14,6 @@ const PostPage = () => {
   useEffect(() => {
     axios.get("http://localhost:8000/api/v1/posts?page=" + (params.get('page') == null ? 1 : params.get('page'))).then((response) => {
       if (response.status === 200) {
-        console.log(response.data)
         setCount(response.data.count)
         setPosts(response.data.results)
       }

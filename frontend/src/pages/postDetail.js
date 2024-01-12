@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from "axios";
 import './postDetail.css';
 import ReactQuill, { Quill } from "react-quill";
@@ -25,18 +25,20 @@ const PostDetail = () => {
 
     axios({
       method: "get",
-      url: "http://localhost:8000/api/v1/posts/"+ postId +"/id/",
-      headers: { "Content-Type": "multipart/form-data", "authorization": "token " + localStorage.getItem('token')
-    },
+      url: "http://localhost:8000/api/v1/posts/" + postId + "/id/",
+      headers: {
+        "Content-Type": "multipart/form-data", "authorization": "token " + localStorage.getItem('token')
+      },
     }).then((response) => {
       const data = response.data;
       setTitle(data.title);
       setBody(data.body);
-      setCategories(data.category);
+      setCategories(data.category.map(item => [{ "id": item.id, "name": item.name }]))
+
       setTags(data.tags);
       setId(data.id);
       setImageUrl(data.image);
-      setOwnerId(data.owner);
+      setOwnerId(data.owner.id);
       setSlug(data.slug);
       const date = new Date(data.created)
       const formattedDate = date.toLocaleDateString("en-GB", {
@@ -58,9 +60,9 @@ const PostDetail = () => {
 
   useEffect(() => {
 
-    console.log("Changed Widgets: ", post)
+    // console.log("Changed Widgets: ", categories)
 
-}, [title])
+  }, [categories])
 
   if (!post) {
     return <div className='loading'>Loading...</div>;
@@ -68,29 +70,33 @@ const PostDetail = () => {
 
   return (
     <div className="post-detail-container">
-    <h1 className="post-detail-heading">{title}</h1>
-    <div className='post-detail-categories'>
-      {categories.map((category, index) => (
-        <span key={index} className="post-detail-category">{category}.</span>
-      ))}
+      <h1 className="post-detail-heading">{title}</h1>
+      <div className='post-detail-categories'>
+        {categories.map((category, index) => (
+          <Link to={'/categories/' + category[0].id} className='post-detail-link'>
+            <span key={index} className="post-detail-category">{category[0].name} . </span>
+          </Link>
+        ))}
       </div>
-    <p>last update: {created}</p>
-    <img className="post-detail-image" src={imageUrl} alt="post" />
-    <div class="post-detail-tags">
-    {tags.map((tag, index) => (
-        <span key={index} className="post-detail-tag">{tag}</span>
-      ))}
-    </div>
-    <div className='post-detail-body'>
-      <ReactQuill
+      <p>last update: {created}</p>
+      <img className="post-detail-image" src={imageUrl} alt="post" />
+      <div class="post-detail-tags">
+        {tags.map((tag, index) => (
+          <Link to={'/tags/' + tag} className='post-detail-link'>
+            <span key={index} className="post-detail-tag">{tag}</span>
+          </Link>
+        ))}
+      </div>
+      <div className='post-detail-body'>
+        <ReactQuill
           value={body}
           readOnly={true}
           theme={"bubble"}
         />
       </div>
-    <div className="post-detail-author">	
-      <h4>Written by: {ownerId}</h4>
-    </div>
+      <div className="post-detail-author">
+        <h4>Written by: {ownerId}</h4>
+      </div>
     </div>
   );
 };
