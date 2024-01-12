@@ -64,7 +64,7 @@ const PostDetail = () => {
 
   }, [categories])
 
-  if (!post) {
+  if (!title) {
     return <div className='loading'>Loading...</div>;
   }
 
