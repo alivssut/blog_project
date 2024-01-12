@@ -11,10 +11,10 @@ from rest_framework.authentication import TokenAuthentication, SessionAuthentica
 # post list view
 class PostListView(generics.ListAPIView):
     pagination_class = PostPagination
-    queryset = Post.objects.all_posts(active=True)
     serializer_class = PostSerializer
     authentication_classes = [TokenAuthentication]
     permission_classes = [AllowAny,]
+    queryset = Post.objects.all_posts(active=True)
     
 # post create view
 class PostCreateView(generics.CreateAPIView):

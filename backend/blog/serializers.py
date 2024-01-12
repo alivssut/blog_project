@@ -17,6 +17,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
     tags = TagListSerializerField()
+    category = CategorySerializer(many=True)
     
     def validate(self, data):
         """
