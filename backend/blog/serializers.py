@@ -11,7 +11,7 @@ from .documents import PostDocument
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ("id","name")
+        fields = ("id", "name", "slug")
         model = Catagory
 
 
