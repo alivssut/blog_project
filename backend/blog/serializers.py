@@ -6,7 +6,7 @@ from taggit.serializers import (TagListSerializerField,
                                 TaggitSerializer)
 from taggit.models import Tag
 from django_elasticsearch_dsl_drf.serializers import DocumentSerializer
-
+from accounts.serializers import UserSerializer
 from .documents import PostDocument
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -18,6 +18,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
     tags = TagListSerializerField()
     category = CategorySerializer(many=True)
+    owner = UserSerializer()
     
     def validate(self, data):
         """
