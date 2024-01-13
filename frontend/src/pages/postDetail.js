@@ -5,6 +5,7 @@ import './postDetail.css';
 import ReactQuill, { Quill } from "react-quill";
 import 'react-quill/dist/quill.bubble.css'
 import "./../static/css/postdetail.css";
+import Comments from '../components/comments/comments';
 
 const PostDetail = () => {
   const { postId } = useParams();
@@ -97,6 +98,8 @@ const PostDetail = () => {
       <div className="post-detail-author">
         <h4>Written by: {ownerId}</h4>
       </div>
+
+      <Comments postSlug={slug}/>
     </div>
   );
 };
