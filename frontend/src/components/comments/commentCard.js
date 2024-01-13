@@ -10,7 +10,7 @@ function Comments(props) {
         <li class="clearfix">
             <img src="" class="avatar" alt="" />
             <div class="post-comments">
-                <p class="meta">{props.date} <Link to={'/author/' + props.comment.owner}>{props.comment.owner}</Link> says : <i class="pull-right"></i></p>
+                <p class="meta">{props.date} <Link to={'/author/' + props.comment.owner_username}>{props.comment.owner_username}</Link> says : <i class="pull-right"></i></p>
                 <p>
                     <ReactQuill
                         value={props.comment.body}

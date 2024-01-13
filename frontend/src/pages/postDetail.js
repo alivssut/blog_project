@@ -99,7 +99,7 @@ const PostDetail = () => {
         <h4>Written by: {ownerId}</h4>
       </div>
 
-      <Comments postSlug={slug}/>
+      <Comments postSlug={slug} postId={postId}/>
     </div>
   );
 };
