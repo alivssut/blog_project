@@ -38,6 +38,7 @@ class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
         
 
 class CommentSerializer(serializers.ModelSerializer):
+    owner = UserSerializer()
     
     def validate(self, data):
         """

@@ -48,7 +48,7 @@ class Post(models.Model):
 
 # comment model
 class Comment(models.Model):
-    body = models.TextField()
+    body = RichTextUploadingField()
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=False)
