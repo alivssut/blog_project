@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useNavigate  } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const getPageNumbers = () => {
@@ -108,23 +107,15 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 };
 
 function  PaginationComponent (props) {
-  const [currentPage, setCurrentPage] = useState(parseInt(props.currentPage));
-  const totalPages = Math.ceil(props.count / 5);
-  const navigate = useNavigate();
-
-  const handlePageChange = (page) => {
-    navigate("/posts?page="+page);
-    setCurrentPage(page);
-    navigate(0);
-  };
+  const totalPages = Math.ceil(props.count / props.contentPerPage); 
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <div>
         <Pagination
-          currentPage={currentPage}
+          currentPage={parseInt(props.currentPage)}
           totalPages={totalPages}
-          onPageChange={handlePageChange}
+          onPageChange={props.handlePageChange}
         />
       </div>
     </div>

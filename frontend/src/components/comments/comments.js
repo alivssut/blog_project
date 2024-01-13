@@ -3,15 +3,17 @@ import './../../static/css/comments.css'
 import CommentCard from './commentCard';
 import axios from "axios";
 import CommentCreate from './CommentCreate';
+import PaginationComponent from '../pagination';
 
 function Comments(props) {
     const [comments, setComments] = useState([]);
+    const [count, setCount] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-
         axios({
             method: "get",
-            url: "http://localhost:8000/api/v1/posts/" + props.postSlug + "/comments/",
+            url: "http://localhost:8000/api/v1/posts/" + props.postSlug + "/comments/?page=" + currentPage,
             headers: {
                 "Content-Type": "multipart/form-data", "authorization": "token " + localStorage.getItem('token')
             },
@@ -32,11 +34,15 @@ function Comments(props) {
                 delete newItem.owner;
                 return newItem
             })
+            setCount(data.count)
             setComments(data_)
         }).catch((error) => {
         });
-    }, []);
+    }, [currentPage]);
 
+    const handlePageChange = (page) => {
+        setCurrentPage(page);  
+    };
 
     return (
         <div class="container bootstrap snippets bootdey">
@@ -65,6 +71,7 @@ function Comments(props) {
                     </div>
                 </div>
             </div>
+            <PaginationComponent count={count} currentPage={currentPage} handlePageChange={handlePageChange} contentPerPage={5} />
         </div>
     )
 }

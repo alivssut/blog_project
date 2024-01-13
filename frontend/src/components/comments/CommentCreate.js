@@ -95,7 +95,7 @@ export default function CommentCreate(props) {
         })
             .then(function (response) {
                 if (response.status === 201) {
-                    // navigate("/posts/" + response.data.id);
+                    setContent('')
                 }
             })
             .catch(function (error) {
