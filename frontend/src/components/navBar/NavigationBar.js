@@ -41,7 +41,7 @@ function NavigationBar() {
             <Nav.Link href="/posts/">posts</Nav.Link>
             <NavDropdown title="categories" id="navbarScrollingDropdown">
               {categories.map((category, index) => (
-                <NavDropdown.Item href={'categories/' + category[0].slug}>{category[0].name}</NavDropdown.Item>
+                <NavDropdown.Item href={'/category/' + category[0].slug}>{category[0].name}</NavDropdown.Item>
               ))}
             </NavDropdown>
             <Nav.Link href="#" disabled>
