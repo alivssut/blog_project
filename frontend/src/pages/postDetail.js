@@ -82,7 +82,7 @@ const PostDetail = () => {
       <img className="post-detail-image" src={imageUrl} alt="post" />
       <div class="post-detail-tags">
         {tags.map((tag, index) => (
-          <Link to={'/tags/' + tag} className='post-detail-link'>
+          <Link to={'/tag/' + tag} className='post-detail-link'>
             <span key={index} className="post-detail-tag">{tag}</span>
           </Link>
         ))}

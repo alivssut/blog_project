@@ -12,6 +12,7 @@ import PostPage from './pages/post';
 import PostDetail from './pages/postDetail';
 import RichTextEditor from './pages/postCreate';
 import CategoryPosts from './pages/categoryPosts';
+import TagPosts from './pages/tagPosts';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route exact path="posts/:postId" element={<PostDetail/>} />
           <Route exact path="posts/create" element={<RichTextEditor/>} />
           <Route exact path="category/:categorySlug" element={<CategoryPosts/>} />
+          <Route exact path="tag/:tagSlug" element={<TagPosts/>} />
         </Routes >
         <Footer />
       </Router>
