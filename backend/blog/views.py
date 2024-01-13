@@ -1,6 +1,6 @@
 from rest_framework import generics
 from .models import Post, Comment, Catagory
-from .serializers import PostSerializer, CommentSerializer, CategorySerializer
+from .serializers import PostSerializer, CommentSerializer, CategorySerializer, CommentCreateSerializer
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
 from .pagination import PostPagination, CommentPagination
 from taggit.models import Tag, TaggedItem
@@ -63,7 +63,7 @@ class CommentListView(generics.ListAPIView):
     
 # Comment create view
 class CommentCreateView(generics.CreateAPIView):
-    serializer_class = CommentSerializer
+    serializer_class = CommentCreateSerializer
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 

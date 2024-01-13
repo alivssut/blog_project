@@ -55,6 +55,23 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         read_only_fields = ('owner', 'is_active', )
         
+class CommentCreateSerializer(serializers.ModelSerializer):
+    
+    def validate(self, data):
+        """
+        set auth user to owner
+        """
+        
+        request = self.context.get("request")
+        data["owner"] = request.user
+        
+        return data
+    
+    class Meta:
+        fields = ('__all__')
+        model = Comment
+        read_only_fields = ('owner', 'is_active', )
+        
 class MyTagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
