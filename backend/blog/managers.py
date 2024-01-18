@@ -9,6 +9,13 @@ class PostManager(models.Manager):
         queryset = self.filter(tags__slug=tag_slug).prefetch_related('tags').prefetch_related('category')
         return queryset
     
+    def all_related_posts_to_user(self, owner_id , active=True):
+        if active:
+            queryset = self.select_related('owner').prefetch_related('category', 'tags').filter(owner_id=owner_id, is_active=active)
+        else:
+            queryset = self.select_related('owner').prefetch_related('category', 'tags').filter(owner_id=owner_id)
+        return queryset
+    
     def all_posts(self, active=True):
         if active:
             queryset = self.filter(is_active=True).prefetch_related('tags').prefetch_related('category')

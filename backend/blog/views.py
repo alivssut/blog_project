@@ -16,6 +16,18 @@ class PostListView(generics.ListAPIView):
     permission_classes = [AllowAny,]
     queryset = Post.objects.all_posts(active=True)
     
+# user post list view
+class UserPostListView(generics.ListAPIView):
+    pagination_class = PostPagination
+    serializer_class = PostSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [AllowAny,]
+    
+    def get_queryset(self):
+        owner_id = self.kwargs.get('id')
+        posts = Post.objects.all_related_posts_to_user(owner_id=owner_id)
+        return posts
+    
 # post create view
 class PostCreateView(generics.CreateAPIView):
     serializer_class = PostSerializer

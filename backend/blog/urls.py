@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import PostListView, PostDetailBySlugView, PostDetailByIdView, PostCreateView, PostUpdateView, PostDeleteView, PostCommentView, CommentCreateView, CommentDeleteView, CommentDetailView, CommentListView, CommentUpdateView
 from .views import TagListView, TagPostsListView
-from .views import CatagoryListView, CatagoryPostsListView
+from .views import CatagoryListView, CatagoryPostsListView, UserPostListView
 from django.views.decorators.cache import cache_page
 
 urlpatterns = [
@@ -12,6 +12,7 @@ urlpatterns = [
     path("posts/<int:pk>/delete/", PostDeleteView.as_view(), name="post_delete"),
     path("posts/", cache_page(60 * 5)(PostListView.as_view()), name="post_list"),
     path("posts/<slug:slug>/comments/", PostCommentView.as_view(), name="post_comments"),
+    path("user/<int:id>/posts/", UserPostListView.as_view(), name="user_posts"),
     
     path("comments/<int:pk>/", CommentDetailView.as_view(), name="comment_detail"),
     path("comments/<int:pk>/update/", CommentUpdateView.as_view(), name="comment_update"),
