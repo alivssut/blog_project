@@ -13,6 +13,7 @@ import PostDetail from './pages/postDetail';
 import RichTextEditor from './pages/postCreate';
 import CategoryPosts from './pages/categoryPosts';
 import TagPosts from './pages/tagPosts';
+import UserProfile from './pages/profile/userProfilePage';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route exact path="posts/create" element={<RichTextEditor/>} />
           <Route exact path="category/:categorySlug" element={<CategoryPosts/>} />
           <Route exact path="tag/:tagSlug" element={<TagPosts/>} />
+          <Route exact path="user/:userId" element={<UserProfile/>} />
         </Routes >
         <Footer />
       </Router>

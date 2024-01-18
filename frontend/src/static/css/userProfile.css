@@ -1,0 +1,23 @@
+.user-profile-about {
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+.user-profile-avatar {
+    margin-right: 20px;
+}
+.user-profile-avatar img{
+    width: 200px;
+    height: 200px;
+}
+
+.user-profile-container{
+    margin: 15px;
+    padding: 5px;
+}
+
+.user-profile-posts{
+    margin-top: 20px;
+}
